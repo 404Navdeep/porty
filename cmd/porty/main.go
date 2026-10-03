@@ -12,15 +12,27 @@ func main() {
 
 	switch os.Args[1] {
 	case "scan":
-		fmt.Println("Scan command")
+		if len(os.Args) < 3 {
+			fmt.Println("Usage porty scan <host>")
+			return
+		}
+		fmt.Printf("Scanning %s...\n", os.Args[2])
 	case "dns":
-		fmt.Println("DNS command")
+		if len(os.Args) <3 {
+			fmt.Println("Usage porty dns <host>")
+			return
+		}
+		fmt.Printf("Scanning %s...\n", os.Args[2])
 	case "check":
-		fmt.Println("check command")
+		if len(os.Args) < 3 {
+			fmt.Println("Usage porty check <host>")
+			return
+		}
+		fmt.Printf("Scanning %s...\n", os.Args[2])
 	case "help":
 		printUsage()
 	default:
-		fmt.Println("IDK command: %s\n", os.Args[1])
+		fmt.Printf("IDK command: %s\n", os.Args[1])
 		printUsage()
 	}
 }
