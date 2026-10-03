@@ -2,6 +2,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"github.com/404Navdeep/porty/internal/dns"
 )
 
 func main() {
@@ -23,6 +24,32 @@ func main() {
 			return
 		}
 		fmt.Printf("Scanning %s...\n", os.Args[2])
+		host := os.Args[2]
+		result, err := dns.Lookup(host)
+		if err != nil {
+			fmt.Printf("DNS lookup failed: %v\n", err)
+			return
+		}
+		fmt.Printf("DNS lookup: %s\n\n", result.Host)
+
+		fmt.Println("IPv4:")
+		if len(result.IPv4) == 0 {
+			fmt.Println("	None")
+		} else {
+			for _, ip := range result.IPv4 {
+				fmt.Printf("	%s\n", ip)
+			}
+		}
+
+		fmt.Println("IPv6:")
+		if len(result.IPv6) == 0 {
+			fmt.Printf("	None")
+		} else {
+			for _, ip := range result.IPv6 {
+				fmt.Printf("	%s\n", ip)
+			}
+		}
+
 	case "check":
 		if len(os.Args) < 3 {
 			fmt.Println("Usage porty check <host>")
