@@ -2,6 +2,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
+	"github.com/404Navdeep/porty/internal/scanner"
 	"github.com/404Navdeep/porty/internal/dns"
 )
 
@@ -17,7 +19,19 @@ func main() {
 			fmt.Println("Usage porty scan <host>")
 			return
 		}
-		fmt.Printf("Scanning %s...\n", os.Args[2])
+		host := os.Args[2]
+		ports := []int{
+			21,22,25,53,80,110,143,443,445,3306,5432,8080,
+		}
+		fmt.Printf("Scanning %s...\n\n", host)
+		for _, port := range ports {
+			result := scanner.Scan(host, port, 500*time.Millisecond)
+
+			if result.Open {
+				fmt.Printf("	%d/tcp OPEN\n", port)
+			}
+		}
+		fmt.Println("\nScan complete.")
 	case "dns":
 		if len(os.Args) <3 {
 			fmt.Println("Usage porty dns <host>")
