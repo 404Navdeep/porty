@@ -24,11 +24,11 @@ func main() {
 			21,22,25,53,80,110,143,443,445,3306,5432,8080,
 		}
 		fmt.Printf("Scanning %s...\n\n", host)
-		for _, port := range ports {
-			result := scanner.Scan(host, port, 500*time.Millisecond)
+		results := scanner.ScanPorts(host, ports, 500*time.Millisecond)
 
-			if result.Open {
-				fmt.Printf("	%d/tcp OPEN\n", port)
+		for _, result := range results {
+			if result.Open{
+				fmt.Printf("	%d/tcp OPEN\n", result.Port)
 			}
 		}
 		fmt.Println("\nScan complete.")
